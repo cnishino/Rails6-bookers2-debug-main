@@ -9,8 +9,21 @@
   <tbody>
     <% users.each do |user| %>
       <tr>
-        <td><%= image_tag user.get_profile_image, size: '50x50' %></td>
+        <td><%= image_tag user.get_profile_image(50,50) %></td>
         <td><%= user.name %></td>
+        <td>フォロー数：<%= link_to user.followeds.count, followeds_user_path(user) %></td>
+        <td>フォロワー数：<%= link_to user.followers.count, followers_user_path(user) %></td>
+        <td>
+          <% if user.is_followed_by?(current_user) %>
+            <%=link_to user_relationships_path(user), method: :delete do %>
+              <button type="button" class="btn btn btn-danger">フォロー外す</button>
+            <% end %>
+          <% else %>
+            <%=link_to user_relationships_path(user), method: :post do %>
+              <button type="button" class="btn btn btn-primary">フォローする</button>
+            <% end %>
+          <% end %>
+        </td>
         <td><%= link_to 'Show', user, class: "user_#{user.id}" %></td>
       </tr>
     <% end %>

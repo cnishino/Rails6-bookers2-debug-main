@@ -4,10 +4,15 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :books, dependent: :destroy
+  has_many :books
   has_many :favorites, dependent: :destroy
   has_many :post_comments, dependent: :destroy
 
+  has_many :relationships, foreign_key: followed_id
+  has_many :followeds, through: :relationships, source: :follower
+
+  has_many :reverse_of_relationships, class_name: 'relationship', foreign_key: follower_id
+  has_many :followers, through: :reverse_of_relationships, source: :followed
 
   has_one_attached :profile_image
 
@@ -21,4 +26,9 @@ class User < ApplicationRecord
     end
       profile_image.variant(resize_to_limit: [width, height]).processed
   end
+
+  def is_followed_by?(user)
+    reverse_of_relationships.find_by(followed_id: user.id).present?
+  end
+
 end
