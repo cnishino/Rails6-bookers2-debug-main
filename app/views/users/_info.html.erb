@@ -10,21 +10,21 @@
   </tr>
   <tr>
 	  <th>follows</th>
-	  <th><%= link_to user.followeds.count, followeds_user_path(user) %></th>
+	  <th><%= link_to user.followings.count, user_followings_path(user) %></th>
   </tr>
   <tr>
 	  <th>followers</th>
-	  <th> <%= link_to user.followers.count, followers_user_path(user) %></th>
+	  <th> <%= link_to user.followers.count, user_followers_path(user) %></th>
   </tr>
   <tr>
     <th>
       <% if user != current_user %>
-        <% if user.is_followed_by?(current_user) %>
-          <%=link_to user_relationships_path(user), method: :delete do %>
+        <% if current_user.following?(user) %>
+          <%= link_to user_relationships_path(user.id), method: :delete do %>
             <button type="button" class="btn btn btn-danger">フォロー外す</button>
           <% end %>
         <% else %>
-          <%=link_to user_relationships_path(user), method: :post do %>
+          <%= link_to user_relationships_path(user.id), method: :post do %>
             <button type="button" class="btn btn btn-primary">フォローする</button>
           <% end %>
         <% end %>
