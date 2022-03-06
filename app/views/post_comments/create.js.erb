@@ -1,0 +1,4 @@
+console.log('create.js.erb start');
+var textareaForm = document.getElementById("post_comment_comment");
+textareaForm.value = '';
+$(".post_comments").html("<%= escape_javascript(render partial: "post_comments/index", locals: {book: @book}) %>");
