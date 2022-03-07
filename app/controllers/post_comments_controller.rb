@@ -4,9 +4,13 @@ class PostCommentsController < ApplicationController
     book = Book.find(params[:book_id])
     comment = current_user.post_comments.new(post_comment_params)
     comment.book_id = book.id
-    comment.save
-    @post_comment = comment
-    @book = Book.find(params[:book_id])
+    if comment.save
+      @post_comment = comment
+      @book = Book.find(params[:book_id])
+    else
+      @post_comment = comment
+      render :error
+    end
     # redirect_to request.referer
   end
 

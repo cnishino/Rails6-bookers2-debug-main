@@ -1,4 +1,3 @@
-console.log('create.js.erb start');
-var textareaForm = document.getElementById("post_comment_comment");
-textareaForm.value = '';
+$(".comments_count-<%= @book.id %>").html("コメント数: <%= @book.post_comments.count %>");
 $(".post_comments").html("<%= escape_javascript(render partial: "post_comments/index", locals: {book: @book}) %>");
+$("#post_comment_comment").val("");
