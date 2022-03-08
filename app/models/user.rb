@@ -6,6 +6,8 @@ class User < ApplicationRecord
 
   has_many :books
   has_many :favorites, dependent: :destroy
+  #いいねしたブックを複数もっている（book一覧画面並び替えで使う）
+  has_many :favorited_books, through: :favorites, source: :book
   has_many :post_comments, dependent: :destroy
 
   # フォローをした、されたの関係
