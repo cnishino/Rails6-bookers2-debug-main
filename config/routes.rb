@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  get 'chats/show'
-  get 'chats/creat'
+  resources :chats, only: [:show, :create]
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   devise_for :users
   root to: "homes#top"
