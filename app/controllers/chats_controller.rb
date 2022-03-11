@@ -26,13 +26,11 @@ class ChatsController < ApplicationController
     @user = User.find(current_user.id) #チャットする相手は誰か？
     rooms = current_user.user_rooms.pluck(:room_id) #ログイン中のユーザーの部屋情報を全て取得
     user_rooms = UserRoom.find_by(user_id: @user.id, room_id: rooms) #その中にチャットする相手とのルームがあるか確認
-
     @room = user_rooms.room
-    @chat = Chat.new
-    # @chat.user_id = current_user.id
-    # @chat.room_id = @room.id
-    # @chat.message = '44444'
+    @chat = current_user.chats.new(chat_params)
+    @chat.room_id = @room.id
     @chat.save
+    @chats = @room.chats
   end
 
   private
