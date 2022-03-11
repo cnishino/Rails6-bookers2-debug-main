@@ -12,8 +12,8 @@ class ChatsController < ApplicationController
       else #ユーザールームが無かった場合
         @room = Room.new #新しくRoomを作る
         @room.save #そして保存
-        UserRoom.create(user_id: @user.id, room_id: @room.id) #自分の中間テーブルを作る
-        UserRoom.create(user_id: current_user.id, room_id: @room.id) #相手の中間テーブルを作る
+        UserRoom.create(user_id: @user.id, room_id: @room.id) #相手の中間テーブルを作る
+        UserRoom.create(user_id: current_user.id, room_id: @room.id) #自分の中間テーブルを作る
       end
       #roomに紐づくchatsテーブルのレコードを@chatsに格納
       @chats = @room.chats
@@ -23,14 +23,8 @@ class ChatsController < ApplicationController
   end
 
   def create
-    @user = User.find(current_user.id) #チャットする相手は誰か？
-    rooms = current_user.user_rooms.pluck(:room_id) #ログイン中のユーザーの部屋情報を全て取得
-    user_rooms = UserRoom.find_by(user_id: @user.id, room_id: rooms) #その中にチャットする相手とのルームがあるか確認
-    @room = user_rooms.room
     @chat = current_user.chats.new(chat_params)
-    @chat.room_id = @room.id
-    @chat.save
-    @chats = @room.chats
+    render :error unless @chat.save
   end
 
   private

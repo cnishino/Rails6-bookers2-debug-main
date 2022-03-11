@@ -1,3 +1,2 @@
-console.log('test');
-$(".message").html("<%= escape_javascript(render partial: "chats/message", locals: {chats: @chats}) %>");
+$('.message').append("<p style='text-align: right;'><%= @chat.message %></p>");
 $("input[type=text]").val("");
